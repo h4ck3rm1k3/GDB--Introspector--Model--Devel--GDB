@@ -26,29 +26,234 @@ sub index :Path :Args(0) {
 #    $c->response->body('Matched GDB::Introspector::Controller::Devel::GDB::Info in Devel::GDB::Info.');
     my ($self,$c,@args) = @_;   
     my $gdb = $c->model('Devel::GDB');
-    $c->response->body('info ' .  $gdb->get('info') );
+    my @results = split ("\n", $gdb->get('info'));
+
+    my $report     ="";
+    foreach my $r (@results)
+    {
+	if ($r =~ /info (\w+)\s+\-\-\s+(.+)/)
+	{
+	    my $cmd =$1;
+
+	    my $sum= sprintf(' sub %s : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"%s");
+ }
+',$cmd,$cmd);
+	    
+	    $report .= "<h1>$sum</h1>";	    
+
+	}
+	else
+	{
+	    
+	}
+    }
+
+    $c->response->body('info ' .  $report );
 
 }
 
 # info program
 
+sub Process {
+     my ($self,$c,$cmd) = @_;   
+     my $gdb = $c->model('Devel::GDB');
+     $c->response->body("info $cmd :" .  $gdb->get("info $cmd") );
+ }
+
+
+ sub address : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"address");
+ }
+ sub args : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"args");
+ }
+ sub auxv : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"auxv");
+ }
+ sub breakpoints : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"breakpoints");
+ }
+ sub catch : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"catch");
+ }
+ sub checkpoints : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"checkpoints");
+ }
+ sub classes : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"classes");
+ }
+ sub common : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"common");
+ }
+ sub copying : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"copying");
+ }
+ sub dcache : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"dcache");
+ }
+ sub display : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"display");
+ }
+ sub extensions : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"extensions");
+ }
+ sub files : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"files");
+ }
+ sub float : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"float");
+ }
+ sub frame : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"frame");
+ }
+ sub functions : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"functions");
+ }
+ sub handle : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"handle");
+ }
+ sub inferiors : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"inferiors");
+ }
+ sub line : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"line");
+ }
+ sub linkmap : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"linkmap");
+ }
+ sub locals : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"locals");
+ }
+ sub macro : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"macro");
+ }
+ sub mem : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"mem");
+ }
+ sub os : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"os");
+ }
+ sub proc : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"proc");
+ }
  sub program : Local {
      my ($self,$c,@args) = @_;   
-     my $gdb = $c->model('Devel::GDB');
-     $c->response->body('info program :' .  $gdb->get('info program') );
-
+     Process($self,$c,"program");
  }
-
-sub file : Local {
-    my ($self,$c,@args) = @_;   
-    my $gdb = $c->model('Devel::GDB');
-    $c->response->body('info file :' .  $gdb->get('info file') );
+ sub record : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"record");
  }
-
-sub file : Local {
-    my ($self,$c,@args) = @_;   
-    my $gdb = $c->model('Devel::GDB');
-    $c->response->body('info file :' .  $gdb->get('info file') );
+ sub registers : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"registers");
+ }
+ sub scope : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"scope");
+ }
+ sub selectors : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"selectors");
+ }
+ sub set : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"set");
+ }
+ sub sharedlibrary : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"sharedlibrary");
+ }
+ sub signals : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"signals");
+ }
+ sub source : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"source");
+ }
+ sub sources : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"sources");
+ }
+ sub stack : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"stack");
+ }
+ sub symbol : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"symbol");
+ }
+ sub target : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"target");
+ }
+ sub tasks : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"tasks");
+ }
+ sub terminal : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"terminal");
+ }
+ sub threads : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"threads");
+ }
+ sub tracepoints : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"tracepoints");
+ }
+ sub types : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"types");
+ }
+ sub variables : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"variables");
+ }
+ sub vector : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"vector");
+ }
+ sub warranty : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"warranty");
+ }
+ sub watchpoints : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"watchpoints");
+ }
+ sub win : Local {
+     my ($self,$c,@args) = @_;   
+     Process($self,$c,"win");
  }
 
 # info address -- Describe where symbol SYM is stored
