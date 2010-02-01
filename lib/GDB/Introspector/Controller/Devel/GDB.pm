@@ -55,7 +55,8 @@ sub file : Local {
 
     if ($file)
     {
-	$c->response->body('File set ' . $file  .":" .  $gdb->send_cmd('file ' . $file) );
+	my $command = 'file ' . $file;
+	$c->response->body('to set the executable: \"' . $command  ."\" :" .  $gdb->send_cmd($command) );
     }
     else
     {
