@@ -35,13 +35,13 @@ sub index :Path :Args(0) {
 	{
 	    my $cmd =$1;
 
-	    my $sum= sprintf(' sub %s : Local {
-     my ($self,$c,@args) = @_;   
-     Process($self,$c,"%s");
- }
-',$cmd,$cmd);
+# 	    my $sum= sprintf(' sub %s : Local {
+#      my ($self,$c,@args) = @_;   
+#      Process($self,$c,"%s");
+#  }
+# ',$cmd,$cmd);
 	    
-	    $report .= "<h1>$sum</h1>";	    
+	    $report .= "<h1><a href='$cmd'>$cmd</a></h1>";	    
 
 	}
 	else
